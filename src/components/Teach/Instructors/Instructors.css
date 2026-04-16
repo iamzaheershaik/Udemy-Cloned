@@ -1,0 +1,155 @@
+.instructor-table-container {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 15px;
+}
+
+.instructor-table-container h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1c1d1f;
+    margin-bottom: 24px;
+}
+
+.instructor-table {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.instructor-table thead {
+    background: #393774;
+    color: white;
+}
+
+.instructor-table thead th {
+    padding: 14px 12px;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+}
+
+.instructor-table tbody td {
+    padding: 12px;
+    vertical-align: middle;
+    font-size: 14px;
+    color: #333;
+}
+
+.instructor-table tbody tr:hover {
+    background-color: #f7f9fa;
+}
+
+.instructor-profile-img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e0e0e0;
+}
+
+.action-btn {
+    border: none;
+    padding: 6px 10px;
+    margin: 0 3px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.action-btn.view {
+    background: #e8f4fd;
+    color: #1976d2;
+}
+
+.action-btn.view:hover {
+    background: #1976d2;
+    color: white;
+}
+
+.action-btn.edit {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.action-btn.edit:hover {
+    background: #f57c00;
+    color: white;
+}
+
+.action-btn.delete {
+    background: #fce4ec;
+    color: #d32f2f;
+}
+
+.action-btn.delete:hover {
+    background: #d32f2f;
+    color: white;
+}
+
+.no-instructor-row td {
+    padding: 30px !important;
+    font-size: 16px;
+    color: #6a6f73;
+}
+
+/* Single Instructor Detail */
+.instructor-detail-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 0 15px;
+}
+
+.instructor-detail-card {
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+.instructor-detail-img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #393774;
+}
+
+.instructor-detail-card h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1c1d1f;
+    margin-bottom: 8px;
+}
+
+.instructor-detail-card .badge-profession {
+    background: #393774;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.detail-label {
+    font-weight: 600;
+    color: #1c1d1f;
+}
+
+.detail-value {
+    color: #6a6f73;
+}
+
+.bio-section {
+    background: #f7f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 16px;
+}
+
+.bio-section h5 {
+    font-weight: 600;
+    color: #1c1d1f;
+    margin-bottom: 10px;
+}

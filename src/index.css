@@ -1,0 +1,16 @@
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body {
+  font-family: 'udemy sans', -apple-system, BlinkMacSystemFont, 'Roboto', 'Segoe UI', sans-serif;
+  color: #2d2f31;
+  background-color: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

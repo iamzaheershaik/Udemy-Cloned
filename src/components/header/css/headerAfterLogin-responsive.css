@@ -1,0 +1,84 @@
+/* ===================================
+   AFTER-LOGIN HEADER — RESPONSIVE
+   =================================== */
+
+/* Tablet */
+@media (max-width: 1080px) {
+  .al-nav-right .al-nav-link {
+    font-size: 13px;
+    padding: 8px 4px;
+  }
+
+  .al-header-inner {
+    padding: 0 16px;
+    gap: 4px;
+  }
+
+  .al-search {
+    margin: 0 8px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .al-header {
+    height: 56px;
+  }
+
+  .al-header-inner {
+    padding: 0 12px;
+  }
+
+  .al-mobile-menu-btn {
+    display: flex;
+  }
+
+  .al-mobile-right-icons {
+    display: flex;
+  }
+
+  .al-desktop-only {
+    display: none !important;
+  }
+
+  .al-search {
+    margin: 0 8px;
+  }
+
+  .al-search-input {
+    height: 40px;
+    font-size: 13px;
+    padding: 8px 12px 8px 38px;
+  }
+
+  .al-search-icon {
+    left: 12px;
+    font-size: 16px;
+  }
+
+  .al-logo img {
+    width: 75px;
+    height: auto;
+  }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .al-header-inner {
+    padding: 0 8px;
+    gap: 2px;
+  }
+
+  .al-logo {
+    margin-right: 4px;
+  }
+
+  .al-logo img {
+    width: 65px;
+  }
+
+  .al-search-input {
+    height: 36px;
+    font-size: 12px;
+  }
+}

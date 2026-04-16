@@ -1,0 +1,56 @@
+.reasons-section {
+    text-align: center;
+    padding: 60px 20px;
+    background: #f6f7f9;
+}
+
+.title {
+    font-size: 36px;
+    font-weight: 600;
+    margin-bottom: 40px;
+}
+
+.reasons-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.reason-card {
+    max-width: 320px;
+}
+
+.reason-card .icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.reason-card h3 {
+    margin-bottom: 10px;
+}
+
+.reason-card p {
+    color: #555;
+    line-height: 1.6;
+}
+
+.stats-bar {
+    margin-top: 60px;
+    background: linear-gradient(90deg, #5b21b6, #6d28d9);
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 40px 20px;
+    flex-wrap: wrap;
+}
+
+.stat {
+    text-align: center;
+    margin: 10px;
+}
+
+.stat h3 {
+    font-size: 32px;
+    margin-bottom: 5px;
+}

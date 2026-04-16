@@ -1,0 +1,30 @@
+.cart-container {
+  min-height: 60vh;
+}
+
+.cart-item-card {
+  border: 1px solid #d1d7dc;
+  border-radius: 0;
+}
+
+.cart-item-img {
+  width: 100%;
+  max-width: 120px;
+  height: 68px;
+  object-fit: cover;
+  border: 1px solid #d1d7dc;
+}
+
+@media (max-width: 575.98px) {
+  .cart-item-img {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.checkout-card {
+  border: 1px solid #d1d7dc;
+  border-radius: 0;
+  position: sticky;
+  top: 20px;
+}

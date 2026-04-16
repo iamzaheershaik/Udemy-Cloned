@@ -1,0 +1,54 @@
+.add-course-container {
+  max-width: 900px;
+  margin: 40px auto;
+}
+
+.add-course-card {
+  padding: 30px;
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+}
+
+.add-course-title {
+  font-size: 26px;
+  font-weight: 600;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+.form-label {
+  font-weight: 500;
+  color: #333;
+}
+
+.form-control {
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 15px;
+}
+
+.form-control:focus {
+  border-color: #5624d0;
+  box-shadow: 0 0 0 0.2rem rgba(86, 36, 208, 0.2);
+}
+
+.star-rating svg {
+  transition: transform 0.2s;
+}
+
+.star-rating svg:hover {
+  transform: scale(1.2);
+}
+
+.add-course-btn {
+  background: #393774;
+  border: none;
+  padding: 10px 25px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+.add-course-btn:hover {
+  background: #401b9c;
+}

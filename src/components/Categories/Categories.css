@@ -1,0 +1,20 @@
+.categories{
+  display:flex;
+  gap:25px;
+  border-bottom:1px solid #ddd;
+  padding-bottom:10px;
+  margin-left: 70px;
+}
+
+.categories button{
+  border:none;
+  background:none;
+  font-size:16px;
+  cursor:pointer;
+  padding-bottom:6px;
+}
+
+.categories button.active{
+  border-bottom:3px solid black;
+  font-weight:600;
+}

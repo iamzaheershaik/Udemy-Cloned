@@ -1,0 +1,315 @@
+/* ========== AFTER-LOGIN HEADER ========== */
+.al-header {
+  padding: 0;
+  height: 72px;
+  border-bottom: 1px solid #d1d2e0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background-color: #fff;
+}
+
+.al-header-inner {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0 24px;
+  gap: 8px;
+}
+
+/* ========== LOGO ========== */
+.al-logo {
+  margin-right: 8px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+/* ========== LEFT LINKS ========== */
+.al-left-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.al-subscribe-link {
+  position: relative;
+}
+
+.al-new-badge {
+  background: #5624d0;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+/* ========== SEARCH ========== */
+.al-search {
+  flex: 1;
+  min-width: 0;
+  margin: 0 12px;
+}
+
+.al-search-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.al-search-icon {
+  position: absolute;
+  left: 16px;
+  color: #6a6f73;
+  font-size: 18px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.al-search-input {
+  border-radius: 9999px;
+  border: 1px solid #2d2f31;
+  padding: 10px 16px 10px 44px;
+  font-size: 14px;
+  height: 48px;
+  width: 100%;
+  background-color: #f7f9fa;
+  outline: none;
+}
+
+.al-search-input:focus {
+  border-color: #5624d0;
+  box-shadow: none;
+}
+
+/* ========== RIGHT NAV ========== */
+.al-nav-right {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 4px;
+  flex-wrap: nowrap;
+}
+
+/* ========== NAV LINKS ========== */
+.al-nav-link {
+  color: #2d2f31;
+  font-size: 14px;
+  white-space: nowrap;
+  padding: 8px;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.al-nav-link:hover {
+  color: #5624d0;
+}
+
+/* ========== ICON LINKS ========== */
+.al-icon-link {
+  color: #2d2f31;
+  padding: 8px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.al-icon-link:hover {
+  color: #5624d0;
+}
+
+/* ========== NOTIFICATION DOT ========== */
+.al-notif-dot {
+  width: 8px;
+  height: 8px;
+  background: #5624d0;
+  border-radius: 50%;
+  position: absolute;
+  top: 6px;
+  right: 4px;
+  border: 2px solid #fff;
+}
+
+/* ========== USER AVATAR (desktop) ========== */
+.al-user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #1c4a1e;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  margin-left: 8px;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+.al-user-avatar:hover {
+  color: #fff;
+  opacity: 0.9;
+}
+
+/* ========== USER AVATAR (mobile small) ========== */
+.al-user-avatar-sm {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: #1c4a1e;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 700;
+  flex-shrink: 0;
+  text-decoration: none;
+}
+
+/* ========== HAMBURGER (hidden on desktop) ========== */
+.al-mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: #2d2f31;
+  cursor: pointer;
+  padding: 8px;
+  flex-shrink: 0;
+}
+
+/* ========== MOBILE RIGHT ICONS (hidden on desktop) ========== */
+.al-mobile-right-icons {
+  display: none;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+/* ========== OVERLAY ========== */
+.al-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 1100;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.al-overlay.open {
+  display: block;
+  opacity: 1;
+}
+
+/* ========== MOBILE SLIDE-OUT MENU ========== */
+.al-mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 280px;
+  height: 100vh;
+  background: #fff;
+  z-index: 1200;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  box-shadow: 4px 0 16px rgba(0, 0, 0, 0.1);
+}
+
+.al-mobile-menu.open {
+  transform: translateX(0);
+}
+
+.al-mobile-menu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e8e9eb;
+}
+
+.al-mobile-close-btn {
+  background: none;
+  border: none;
+  color: #2d2f31;
+  cursor: pointer;
+  padding: 4px;
+}
+
+/* ========== MOBILE USER INFO ========== */
+.al-mobile-user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  border-bottom: 1px solid #e8e9eb;
+  background: #f7f9fa;
+}
+
+.al-mobile-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #1c4a1e;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.al-mobile-user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.al-mobile-user-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #2d2f31;
+}
+
+/* ========== MOBILE SECTIONS ========== */
+.al-mobile-section {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e8e9eb;
+}
+
+.al-mobile-section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #6a6f73;
+  margin: 0 0 12px 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.al-mobile-link {
+  display: block;
+  padding: 10px 0;
+  color: #2d2f31;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 400;
+  transition: color 0.15s;
+}
+
+.al-mobile-link:hover {
+  color: #5624d0;
+}

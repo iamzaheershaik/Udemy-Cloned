@@ -1,0 +1,78 @@
+.become-instructor-section {
+  background-color: #f7f9fa;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.become-instructor-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.become-instructor-content h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1c1d1f;
+  margin-bottom: 12px;
+}
+
+.become-instructor-content p {
+  font-size: 18px;
+  color: #6a6f73;
+  margin-bottom: 24px;
+}
+
+.view-instructors-btn {
+  padding: 12px 24px;
+  background-color: #8710d8;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  min-width: 220px;
+  transition: background-color 0.2s ease;
+}
+
+.view-instructors-btn:hover {
+  background-color: #a435f0;
+}
+
+.become-instructor-buttons {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.get-started-btn {
+  padding: 12px 24px;
+  background-color: #1c1d1f;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  min-width: 220px;
+  transition: background-color 0.2s ease;
+}
+
+.get-started-btn:hover {
+  background-color: #3e4143;
+}
+
+@media (max-width: 768px) {
+  .become-instructor-content h2 {
+    font-size: 24px;
+  }
+
+  .become-instructor-content p {
+    font-size: 16px;
+  }
+
+  .view-instructors-btn {
+    min-width: 180px;
+  }
+}
