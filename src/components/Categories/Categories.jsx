@@ -31,7 +31,6 @@ const Categories = ({ setFilter }) => {
         ))}
 
       </div>
-      <hr/>
     </>
   );
 };

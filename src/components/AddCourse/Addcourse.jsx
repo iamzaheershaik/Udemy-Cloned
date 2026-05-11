@@ -6,13 +6,15 @@ import "./AddCourse.css";
 import { useNavigate } from "react-router-dom";
 import CloudinaryUpload from "../Upload/CloudinaryUpload";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addCourseAsync } from "../../Services/Action/cource.action";
 
 const AddCourse = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const error = useSelector((state) => state.course.error);
+  const [actionError, setActionError] = useState("");
 
   const [formData, setFormData] = useState({
     title: "",
@@ -38,34 +40,39 @@ const AddCourse = () => {
     });
   };
 
-const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
   e.preventDefault();
 
   const newCourse = {
     ...formData,
-    id: Date.now()
   };
 
-  dispatch(addCourseAsync(newCourse));
-  console.log("Course Added:", newCourse);
-  navigate("/");
-
-  setFormData({
-    title: "",
-    description: "",
-    learn: "",
-    duration: "",
-    price: "",
-    rating: 0,
-    method: "",
-    image: ""
-  });
+  setActionError("");
+  try {
+    await dispatch(addCourseAsync(newCourse));
+    setFormData({
+      title: "",
+      description: "",
+      learn: "",
+      duration: "",
+      price: "",
+      rating: 0,
+      method: "",
+      image: ""
+    });
+    navigate("/");
+  } catch (err) {
+    setActionError(err.message);
+  }
 };
 
   return (
     <Container className="add-course-container">
       <Card className="add-course-card">
         <h2 className="add-course-title">Add New Course</h2>
+        {(actionError || error) && (
+          <div className="alert alert-danger">{actionError || error}</div>
+        )}
 
         <Form onSubmit={handleSubmit}>
           <Form.Group as={Row} className="mb-3">

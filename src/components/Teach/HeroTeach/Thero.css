@@ -1,86 +1,81 @@
-.hero {
+.teach-hero {
   position: relative;
   width: 100%;
-  height: 500px;
+  min-height: 500px;
   overflow: hidden;
   margin-bottom: 28px;
+  background: #f7f9fa;
 }
 
-.hero-img {
+.teach-hero-img {
   width: 100%;
   height: 100%;
+  min-height: 500px;
   object-fit: cover;
+  object-position: center;
+  display: block;
 }
 
-.hero-content {
+.teach-hero-content {
   position: absolute;
   top: 50%;
-  left: 15%;
+  left: clamp(20px, 10vw, 150px);
   transform: translateY(-50%);
-  color: black;
-  max-width: 350px;
+  color: #1c1d1f;
+  max-width: 390px;
 }
 
-.hero-content h2 {
-  font-size: 60px;
-  margin-bottom: 15px;
+.teach-hero-content h2 {
+  font-size: 56px;
+  line-height: 1.05;
+  font-weight: 700;
+  margin-bottom: 16px;
 }
 
-.hero-content p {
+.teach-hero-content p {
   font-size: 20px;
+  line-height: 1.45;
   margin-bottom: 20px;
 }
 
-.hero-content button {
+.teach-hero-content button {
   padding: 12px 22px;
   background-color: #8710d8;
   color: white;
   border: none;
   cursor: pointer;
   font-size: 16px;
-  border-radius: 10px;
-  width: 100%;
+  font-weight: 700;
+  border-radius: 4px;
 }
 
-.hero-content button:hover {
+.teach-hero-content button:hover {
   background-color: #a435f0;
 }
 
-.hero-content .view-ins-btn {
-  background-color: #1c1d1f;
-  margin-top: 10px;
-}
-
-.hero-content .view-ins-btn:hover {
-  background-color: #3e4143;
-}
-
 @media (max-width: 768px) {
-  .hero {
-    height: auto; 
+  .teach-hero {
+    min-height: auto;
   }
 
-  .hero-img {
-    height: auto;
+  .teach-hero-img {
+    height: 280px;
+    min-height: 280px;
   }
 
-  .hero-content {
+  .teach-hero-content {
     position: static;
     transform: none;
-    padding: 20px;
     max-width: 100%;
-    text-align: left;
+    padding: 24px 20px;
+    background: #fff;
   }
 
-  .hero-content h2 {
-    font-size: 32px;
+  .teach-hero-content h2 {
+    font-size: 34px;
   }
 
-  .hero-content p {
+  .teach-hero-content p {
     font-size: 16px;
-  }
-
-  .hero-content button {
-    width: auto;
   }
 }

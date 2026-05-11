@@ -12,6 +12,8 @@ const EditInstructor = () => {
     const dispatch = useDispatch();
 
     const teacher = useSelector((state) => state.teacher.teacher);
+    const error = useSelector((state) => state.teacher.error);
+    const [actionError, setActionError] = useState("");
 
     const [formData, setFormData] = useState({
         id: "",
@@ -43,7 +45,7 @@ const EditInstructor = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!formData.firstName || !formData.email) {
@@ -51,14 +53,22 @@ const EditInstructor = () => {
             return;
         }
 
-        dispatch(updateTeacherAsync(formData));
-        navigate("/view-instructors");
+        setActionError("");
+        try {
+            await dispatch(updateTeacherAsync(formData));
+            navigate("/view-instructors");
+        } catch (err) {
+            setActionError(err.message);
+        }
     };
 
     return (
         <Container className="add-course-container">
             <Card className="add-course-card">
                 <h2 className="add-course-title">Edit Instructor</h2>
+                {(actionError || error) && (
+                    <div className="alert alert-danger">{actionError || error}</div>
+                )}
 
                 <Form onSubmit={handleSubmit}>
 

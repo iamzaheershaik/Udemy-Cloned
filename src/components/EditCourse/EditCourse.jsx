@@ -14,6 +14,10 @@ const EditCourse = () => {
     const dispatch = useDispatch();
 
     const courses = useSelector((state) => state.course.courses);
+    const selectedCourse = useSelector((state) => state.course.course);
+    const error = useSelector((state) => state.course.error);
+    const [actionError, setActionError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     const [formData, setFormData] = useState({
         id: "",
@@ -28,15 +32,34 @@ const EditCourse = () => {
     });
 
     useEffect(() => {
-        dispatch(getCourseAsync(id));
+        let active = true;
+        const loadCourse = async () => {
+            setIsLoading(true);
+            try {
+                await dispatch(getCourseAsync(id));
+            } finally {
+                if (active) setIsLoading(false);
+            }
+        };
+
+        loadCourse();
+
+        return () => {
+            active = false;
+        };
     }, [dispatch, id]);
 
     useEffect(() => {
-        const selectedCourse = courses.find(c => c.id === id || c.id === Number(id));
-        if (selectedCourse) {
+        const listCourse = courses.find(c => String(c.id) === String(id));
+        if (listCourse) {
+            setFormData(listCourse);
+            return;
+        }
+
+        if (selectedCourse && String(selectedCourse.id) === String(id)) {
             setFormData(selectedCourse);
         }
-    }, [id, courses]);
+    }, [id, courses, selectedCourse]);
 
     const handleRating = (value) => {
         setFormData({ ...formData, rating: value });
@@ -51,18 +74,31 @@ const EditCourse = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        dispatch(updateCourseAsync(formData));
-        navigate("/");
+        setActionError("");
+        try {
+            await dispatch(updateCourseAsync(formData));
+            navigate("/");
+        } catch (err) {
+            setActionError(err.message);
+        }
     }
+
+    if (isLoading && !formData.id) {
+        return <h2 className="text-center mt-5">Loading course...</h2>;
+    }
+
     return (
 
         <Container className="add-course-container">
             <Card className="add-course-card">
 
                 <h2 className="add-course-title">Edit Course</h2>
+                {(actionError || error) && (
+                    <div className="alert alert-danger">{actionError || error}</div>
+                )}
 
                 <Form onSubmit={handleSubmit}>
 

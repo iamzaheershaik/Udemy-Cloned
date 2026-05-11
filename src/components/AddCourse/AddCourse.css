@@ -1,12 +1,13 @@
 .add-course-container {
   max-width: 900px;
   margin: 40px auto;
+  padding: 0 16px;
 }
 
 .add-course-card {
   padding: 30px;
-  border-radius: 12px;
-  border: none;
+  border-radius: 8px;
+  border: 1px solid #d1d7dc;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
@@ -23,7 +24,7 @@
 }
 
 .form-control {
-  border-radius: 8px;
+  border-radius: 4px;
   padding: 10px;
   font-size: 15px;
 }
@@ -42,13 +43,30 @@
 }
 
 .add-course-btn {
-  background: #393774;
+  background: #a435f0;
   border: none;
   padding: 10px 25px;
   font-size: 16px;
-  border-radius: 8px;
+  border-radius: 4px;
+  font-weight: 700;
 }
 
 .add-course-btn:hover {
-  background: #401b9c;
+  background: #8710d8;
+}
+
+.upload-button {
+  white-space: nowrap;
+}
+
+.upload-error {
+  color: #b42318;
+  font-size: 14px;
+  margin: 8px 0 0;
+}
+
+@media (max-width: 576px) {
+  .add-course-card {
+    padding: 22px;
+  }
 }

@@ -3,11 +3,11 @@ import udemy from "../img/udemy.jpg";
 
 const Hero = () => {
   return (
-    <div className="hero">
-      <img src={udemy} alt="udemy" className="hero-img" />
+    <div className="home-hero">
+      <img src={udemy} alt="Students learning online" className="home-hero-img" />
 
-      <div className="hero-content">
-        <div id="logoimg">
+      <div className="home-hero-content">
+        <div className="home-hero-logo">
             <img src="https://www.udemy.com/staticx/udemy/images/v7/logo-udemy.svg" alt="Logo" />
         </div>
         <h2>Upgrade your skills</h2>

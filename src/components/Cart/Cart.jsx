@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { removeFromCartAsync, purchaseCoursesAsync, getCartAsync } from "../../Services/Action/cource.action";
@@ -7,22 +7,32 @@ import "./Cart.css";
 
 const Cart = () => {
   const cart = useSelector((state) => state.course.cart);
+  const error = useSelector((state) => state.course.error);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [actionError, setActionError] = useState("");
 
   useEffect(() => {
     dispatch(getCartAsync());
   }, [dispatch]);
 
-  const handleCheckout = () => {
-    dispatch(purchaseCoursesAsync(cart));
-    navigate("/my-learning");
+  const handleCheckout = async () => {
+    setActionError("");
+    try {
+      await dispatch(purchaseCoursesAsync(cart));
+      navigate("/my-learning");
+    } catch (err) {
+      setActionError(err.message);
+    }
   };
 
-  const totalPrice = cart.reduce((total, item) => total + Number(item.price), 0);
+  const totalPrice = cart.reduce((total, item) => total + (Number(item.price) || 0), 0);
   return (
     <Container className="cart-container mt-5">
       <h2 className="mb-4">Shopping Cart</h2>
+      {(actionError || error) && (
+        <div className="alert alert-danger">{actionError || error}</div>
+      )}
       <p><b>{cart.length}</b> Course{cart.length !== 1 ? 's' : ''} in Cart</p>
 
       {cart.length === 0 ? (

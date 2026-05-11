@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Row, Col, Card, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { addToCartAsync, getAllCourseAsync, getCartAsync, getMyLearningAsync } from "../../Services/Action/cource.action";
 import "./ViewCourses.css";
 
@@ -11,6 +11,8 @@ const ViewCourses = ({ filter }) => {
   const cart = useSelector((state) => state.course.cart);
   const myLearning = useSelector((state) => state.course.myLearning);
   const dispatch = useDispatch();
+  const [searchParams] = useSearchParams();
+  const searchTerm = (searchParams.get("q") || "").trim().toLowerCase();
 
   useEffect(() => {
     dispatch(getAllCourseAsync());
@@ -18,14 +20,29 @@ const ViewCourses = ({ filter }) => {
     dispatch(getMyLearningAsync());
   }, [dispatch]);
 
-  const filteredCourses = filter === "All" 
-    ? courses 
-    : courses.filter(course => course.method === filter);
+  const filteredCourses = courses.filter((course) => {
+    const matchesFilter = filter === "All" || course.method === filter;
+    const searchableText = [
+      course.title,
+      course.description,
+      course.learn,
+      course.method,
+    ].join(" ").toLowerCase();
+    const matchesSearch = !searchTerm || searchableText.includes(searchTerm);
+    return matchesFilter && matchesSearch;
+  });
 
   return (
     <div className="container mt-4">
 
       <Row>
+        {filteredCourses.length === 0 && (
+          <Col xs={12}>
+            <div className="empty-course-state">
+              No courses found.
+            </div>
+          </Col>
+        )}
 
         {filteredCourses.map((course, index) => {
           
@@ -49,9 +66,9 @@ const ViewCourses = ({ filter }) => {
                     {course.title}
                   </Card.Title>
 
-                  <p className="mb-1">{course.description.slice(0, 40)}...</p>
+                  <p className="course-description mb-1">{course.description || "No description provided."}</p>
 
-                  <p className="mb-1"><b>Skills:</b> {course.learn ? course.learn.slice(0, 30) : ""}...</p>
+                  <p className="course-skills mb-1"><b>Skills:</b> {course.learn || "Not specified"}</p>
 
                   <p className="mb-1"><b>Duration:</b> {course.duration} hrs</p>
 
@@ -62,9 +79,10 @@ const ViewCourses = ({ filter }) => {
                   <div className="d-flex justify-content-between align-items-center">
                     <Button
                       as={Link}
-                      to={`/course/${courses.indexOf(course)}`}
+                      to={`/course/${course.id}`}
                       variant="primary"
                       size="sm"
+                      disabled={!course.id}
                     >
                       View More
                     </Button>

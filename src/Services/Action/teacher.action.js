@@ -9,6 +9,9 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 
+export const TEACHER_ERROR = "TEACHER_ERROR";
+export const TEACHER_CLEAR_ERROR = "TEACHER_CLEAR_ERROR";
+
 /* ============================================= */
 /*           SYNC ACTION CREATORS                */
 /* ============================================= */
@@ -33,6 +36,14 @@ export const deleteTeacher = (id) => {
   return { type: "DELETE_TEACHER", payload: id };
 };
 
+export const setTeacherError = (error) => {
+  return { type: TEACHER_ERROR, payload: error };
+};
+
+export const clearTeacherError = () => {
+  return { type: TEACHER_CLEAR_ERROR };
+};
+
 /* ============================================= */
 /*       ASYNC ACTION CREATORS (Firestore)       */
 /* ============================================= */
@@ -55,7 +66,7 @@ export const getAllTeacherAsync = () => {
       const teachersArray = snapshotToArray(snapshot);
       dispatch(getAllTeacher(teachersArray));
     } catch (error) {
-      console.log("Error fetching teachers:", error);
+      dispatch(setTeacherError(error.message));
     }
   };
 };
@@ -67,10 +78,15 @@ export const getTeacherAsync = (id) => {
       const teacherDoc = doc(db, "teachers", id);
       const snapshot = await getDoc(teacherDoc);
       if (snapshot.exists()) {
-        dispatch(getTeacher({ ...snapshot.data(), id: snapshot.id }));
+        const teacher = { ...snapshot.data(), id: snapshot.id };
+        dispatch(getTeacher(teacher));
+        return teacher;
+      } else {
+        dispatch(getTeacher(null));
+        return null;
       }
     } catch (error) {
-      console.log("Error fetching teacher:", error);
+      dispatch(setTeacherError(error.message));
     }
   };
 };
@@ -84,8 +100,10 @@ export const addTeacherAsync = (data) => {
       await setDoc(doc(db, "teachers", docRef.id), { ...data, id: docRef.id });
       dispatch(addTeacher());
       dispatch(getAllTeacherAsync());
+      return docRef.id;
     } catch (error) {
-      console.log("Error adding teacher:", error);
+      dispatch(setTeacherError(error.message));
+      throw error;
     }
   };
 };
@@ -98,7 +116,8 @@ export const deleteTeacherAsync = (id) => {
       await deleteDoc(teacherDoc);
       dispatch(getAllTeacherAsync());
     } catch (error) {
-      console.log("Error deleting teacher:", error);
+      dispatch(setTeacherError(error.message));
+      throw error;
     }
   };
 };
@@ -112,7 +131,8 @@ export const updateTeacherAsync = (data) => {
       dispatch(updateTeacher(data));
       dispatch(getAllTeacherAsync());
     } catch (error) {
-      console.log("Error updating teacher:", error);
+      dispatch(setTeacherError(error.message));
+      throw error;
     }
   };
 };

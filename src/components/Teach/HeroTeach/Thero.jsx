@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 
 const Thero = () => {
   return (
-    <div className="hero">
-      <img src={udemy} alt="udemy" className="hero-img" />
+    <div className="teach-hero">
+      <img src={udemy} alt="Instructor teaching a course" className="teach-hero-img" />
 
-      <div className="hero-content">
+      <div className="teach-hero-content">
         <h2>Come teach with us</h2>
         <p>
           Become an instructor and change lives — including your own

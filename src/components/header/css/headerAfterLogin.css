@@ -113,6 +113,19 @@
   color: #5624d0;
 }
 
+.al-primary-link {
+  padding: 8px 12px;
+  background-color: #a435f0;
+  color: #fff;
+  border-radius: 4px;
+  font-weight: 700;
+}
+
+.al-primary-link:hover {
+  color: #fff;
+  background-color: #8710d8;
+}
+
 /* ========== ICON LINKS ========== */
 .al-icon-link {
   color: #2d2f31;

@@ -41,9 +41,24 @@
     .support {
         flex-direction: column;
         text-align: center;
+        padding: 56px 20px;
     }
 
     .support-img img {
         width: 180px;
+    }
+}
+
+@media (max-width: 480px) {
+    .support {
+        padding: 44px 16px;
+    }
+
+    .support-content h2 {
+        font-size: 26px;
+    }
+
+    .support-img img {
+        width: 140px;
     }
 }

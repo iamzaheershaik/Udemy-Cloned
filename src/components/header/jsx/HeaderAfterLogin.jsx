@@ -1,15 +1,14 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../../../Services/Action/auth.action";
 import {
   FiShoppingCart,
   FiSearch,
-  FiHeart,
-  FiBell,
   FiMenu,
   FiX,
   FiLogOut,
+  FiBookOpen,
 } from "react-icons/fi";
 import "../css/headerAfterLogin.css";
 import "../css/headerAfterLogin-responsive.css";
@@ -17,8 +16,10 @@ import "../css/headerAfterLogin-responsive.css";
 
 const HeaderAfterLogin = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const { user } = useSelector((state) => state.auth);
 
   const toggleMenu = () => setMobileMenuOpen((prev) => !prev);
@@ -38,6 +39,17 @@ const HeaderAfterLogin = () => {
     dispatch(logout());
     navigate("/login");
   };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    const query = searchTerm.trim();
+    navigate(query ? `/?q=${encodeURIComponent(query)}` : "/");
+  };
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    setSearchTerm(params.get("q") || "");
+  }, [location.search]);
 
   return (
     <>
@@ -62,52 +74,44 @@ const HeaderAfterLogin = () => {
             />
           </Link>
 
-          {/* Explore & Subscribe (desktop) */}
+          {/* Main links (desktop) */}
           <div className="al-left-links al-desktop-only">
-            <Link to="/explore" className="al-nav-link">
+            <Link to="/" className="al-nav-link">
               Explore
             </Link>
-            <Link to="/subscribe" className="al-nav-link al-subscribe-link">
-              Subscribe
-              <span className="al-new-badge">New</span>
+            <Link to="/my-learning" className="al-nav-link">
+              My learning
             </Link>
           </div>
 
           {/* Search Bar */}
-          <div className="al-search">
+          <form className="al-search" onSubmit={handleSearch}>
             <div className="al-search-wrapper">
               <FiSearch className="al-search-icon" />
               <input
                 type="search"
                 placeholder="Search for anything"
                 className="al-search-input"
+                value={searchTerm}
+                onChange={(event) => setSearchTerm(event.target.value)}
               />
             </div>
-          </div>
+          </form>
 
           {/* Right side nav (desktop) */}
           <nav className="al-nav-right al-desktop-only">
-            <Link to="/udemy-business" className="al-nav-link">
-              Udemy Business
-            </Link>
             <Link to="/teach" className="al-nav-link">
               Teach on Udemy
             </Link>
-            <Link to="/add-course" className="al-nav-link" style={{padding:'5px', backgroundColor:"#393774",color:'white',borderRadius:'5px'}}>
+            <Link to="/add-course" className="al-nav-link al-primary-link">
               Add course
             </Link>
- 
-
-            <Link to="/wishlist" className="al-icon-link" title="Wishlist">
-              <FiHeart size={20} />
+            <Link to="/my-learning" className="al-icon-link" title="My learning">
+              <FiBookOpen size={20} />
             </Link>
             <Link to="/cart" className="al-icon-link" title="Cart">
               <FiShoppingCart size={20} />
             </Link>
-            <button className="al-icon-link" title="Notifications">
-              <FiBell size={20} />
-              <span className="al-notif-dot"></span>
-            </button>
 
             {user?.photoURL ? (
               <img
@@ -118,9 +122,9 @@ const HeaderAfterLogin = () => {
                 title={userName}
               />
             ) : (
-              <Link to="/profile" className="al-user-avatar" title={userName}>
+              <span className="al-user-avatar" title={userName}>
                 {initials}
-              </Link>
+              </span>
             )}
 
             <button
@@ -146,9 +150,9 @@ const HeaderAfterLogin = () => {
                 style={{ objectFit: "cover" }}
               />
             ) : (
-              <Link to="/profile" className="al-user-avatar-sm">
+              <span className="al-user-avatar-sm">
                 {initials}
-              </Link>
+              </span>
             )}
           </div>
         </div>
@@ -207,43 +211,23 @@ const HeaderAfterLogin = () => {
             My learning
           </Link>
 
-          <Link to="/explore" className="al-mobile-link" onClick={closeMenu}>
+          <Link to="/" className="al-mobile-link" onClick={closeMenu}>
             Explore
-          </Link>
-          <Link to="/subscribe" className="al-mobile-link" onClick={closeMenu}>
-            Subscribe
           </Link>
         </div>
 
         <div className="al-mobile-section">
           <h4 className="al-mobile-section-title">More from Udemy</h4>
-          <Link
-            to="/udemy-business"
-            className="al-mobile-link"
-            onClick={closeMenu}
-          >
-            Udemy Business
-          </Link>
           <Link to="/teach" className="al-mobile-link" onClick={closeMenu}>
             Teach on Udemy
+          </Link>
+          <Link to="/add-course" className="al-mobile-link" onClick={closeMenu}>
+            Add course
           </Link>
         </div>
 
         <div className="al-mobile-section">
           <h4 className="al-mobile-section-title">Account</h4>
-          <Link to="/wishlist" className="al-mobile-link" onClick={closeMenu}>
-            Wishlist
-          </Link>
-          <Link
-            to="/notifications"
-            className="al-mobile-link"
-            onClick={closeMenu}
-          >
-            Notifications
-          </Link>
-          <Link to="/profile" className="al-mobile-link" onClick={closeMenu}>
-            Profile
-          </Link>
           <button
             className="al-mobile-link"
             onClick={handleLogout}

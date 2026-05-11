@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Container, Table, Button } from "react-bootstrap";
+import { Table } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllTeacherAsync, deleteTeacherAsync } from "../../../Services/Action/teacher.action";
@@ -11,14 +11,19 @@ const ViewInstructor = () => {
     const navigate = useNavigate();
 
     const instructors = useSelector((state) => state.teacher.teachers);
+    const error = useSelector((state) => state.teacher.error);
 
     useEffect(() => {
         dispatch(getAllTeacherAsync());
     }, [dispatch]);
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this instructor?")) {
-            dispatch(deleteTeacherAsync(id));
+            try {
+                await dispatch(deleteTeacherAsync(id));
+            } catch {
+                // Error is shown from Redux state below.
+            }
         }
     };
 
@@ -33,6 +38,7 @@ const ViewInstructor = () => {
     return (
         <div className="instructor-table-container">
             <h2 className="text-center">Instructor List</h2>
+            {error && <div className="alert alert-danger">{error}</div>}
 
             <Table className="instructor-table" striped bordered hover responsive>
                 <thead>
@@ -52,9 +58,9 @@ const ViewInstructor = () => {
                     {instructors && instructors.length > 0 ? (
                         instructors.map((item, index) => (
                             <tr key={item.id}>
-                                <td>{index + 1}</td>
+                                <td data-label="#">{index + 1}</td>
 
-                                <td>
+                                <td data-label="Image">
                                     <img
                                         src={item.profileImage || "https://via.placeholder.com/45"}
                                         alt="profile"
@@ -62,16 +68,16 @@ const ViewInstructor = () => {
                                     />
                                 </td>
 
-                                <td>
+                                <td data-label="Name">
                                     {item.firstName} {item.lastName}
                                 </td>
 
-                                <td>{item.email}</td>
-                                <td>{item.phnumber}</td>
-                                <td>{item.profession}</td>
-                                <td>{item.skills}</td>
+                                <td data-label="Email">{item.email}</td>
+                                <td data-label="Phone">{item.phnumber}</td>
+                                <td data-label="Profession">{item.profession}</td>
+                                <td data-label="Skills">{item.skills}</td>
 
-                                <td>
+                                <td data-label="Actions">
                                     <button
                                         className="action-btn view"
                                         title="View"

@@ -7,8 +7,11 @@ import {
   addDoc,
   setDoc,
   deleteDoc,
+  writeBatch,
 } from "firebase/firestore";
 
+export const COURSE_ERROR = "COURSE_ERROR";
+export const COURSE_CLEAR_ERROR = "COURSE_CLEAR_ERROR";
 
 export const addCourse = () => {
   return { type: "ADD_COURSE" };
@@ -42,6 +45,14 @@ export const addForm = (course) => {
   return { type: "ADD_FORM", payload: course };
 };
 
+export const setCourseError = (error) => {
+  return { type: COURSE_ERROR, payload: error };
+};
+
+export const clearCourseError = () => {
+  return { type: COURSE_CLEAR_ERROR };
+};
+
 /* ============================================= */
 /*      ASYNC ACTION CREATORS  (Firestore)       */
 /* ============================================= */
@@ -55,6 +66,16 @@ const snapshotToArray = (snapshot) => {
   return arr;
 };
 
+const getUserId = (getState) => getState().auth?.user?.uid;
+
+const getUserCollection = (uid, collectionName) => {
+  return collection(db, "users", uid, collectionName);
+};
+
+const getUserDoc = (uid, collectionName, id) => {
+  return doc(db, "users", uid, collectionName, String(id));
+};
+
 
 export const getAllCourseAsync = () => {
   return async (dispatch) => {
@@ -62,10 +83,9 @@ export const getAllCourseAsync = () => {
       const coursesCol = collection(db, "courses");
       const snapshot = await getDocs(coursesCol);
       const coursesArray = snapshotToArray(snapshot);
-      console.log("Fetched courses:", coursesArray);
       dispatch(getAllCourse(coursesArray));
     } catch (error) {
-      console.log("Error fetching courses:", error);
+      dispatch(setCourseError(error.message));
     }
   };
 };
@@ -77,10 +97,15 @@ export const getCourseAsync = (id) => {
       const courseDoc = doc(db, "courses", id);
       const snapshot = await getDoc(courseDoc);
       if (snapshot.exists()) {
-        dispatch(getCourse({ ...snapshot.data(), id: snapshot.id }));
+        const course = { ...snapshot.data(), id: snapshot.id };
+        dispatch(getCourse(course));
+        return course;
+      } else {
+        dispatch(getCourse(null));
+        return null;
       }
     } catch (error) {
-      console.log("Error fetching course:", error);
+      dispatch(setCourseError(error.message));
     }
   };
 };
@@ -91,13 +116,13 @@ export const addCourseAsync = (data) => {
     try {
       const coursesCol = collection(db, "courses");
       const docRef = await addDoc(coursesCol, data);
-      console.log("Course added with ID:", docRef.id);
-      // Update the document to include its own ID as a field
       await setDoc(doc(db, "courses", docRef.id), { ...data, id: docRef.id });
       dispatch(addCourse());
       dispatch(getAllCourseAsync());
+      return docRef.id;
     } catch (error) {
-      console.log("Error adding course:", error);
+      dispatch(setCourseError(error.message));
+      throw error;
     }
   };
 };
@@ -108,11 +133,11 @@ export const updateCourseAsync = (data) => {
     try {
       const courseDoc = doc(db, "courses", data.id);
       await setDoc(courseDoc, data);
-      console.log("Course updated:", data);
       dispatch(updateCourse(data));
       dispatch(getAllCourseAsync());
     } catch (error) {
-      console.log("Error updating course:", error);
+      dispatch(setCourseError(error.message));
+      throw error;
     }
   };
 };
@@ -123,10 +148,10 @@ export const deleteCourseAsync = (id) => {
     try {
       const courseDoc = doc(db, "courses", id);
       await deleteDoc(courseDoc);
-      console.log("Course deleted:", id);
       dispatch(getAllCourseAsync());
     } catch (error) {
-      console.log("Error deleting course:", error);
+      dispatch(setCourseError(error.message));
+      throw error;
     }
   };
 };
@@ -135,40 +160,51 @@ export const deleteCourseAsync = (id) => {
 
 // GET CART
 export const getCartAsync = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const cartCol = collection(db, "cart");
+      const uid = getUserId(getState);
+      if (!uid) {
+        dispatch(getCart([]));
+        return;
+      }
+      const cartCol = getUserCollection(uid, "cart");
       const snapshot = await getDocs(cartCol);
       const cartArray = snapshotToArray(snapshot);
       dispatch(getCart(cartArray));
     } catch (error) {
-      console.log("Error fetching cart:", error);
+      dispatch(setCourseError(error.message));
     }
   };
 };
 
 // ADD TO CART
 export const addToCartAsync = (course) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const cartDoc = doc(db, "cart", course.id);
+      const uid = getUserId(getState);
+      if (!uid) throw new Error("Please log in to add courses to your cart.");
+      const cartDoc = getUserDoc(uid, "cart", course.id);
       await setDoc(cartDoc, course);
       dispatch(getCartAsync());
     } catch (error) {
-      console.log("Error adding to cart:", error);
+      dispatch(setCourseError(error.message));
+      throw error;
     }
   };
 };
 
 // REMOVE FROM CART
 export const removeFromCartAsync = (id) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const cartDoc = doc(db, "cart", id);
+      const uid = getUserId(getState);
+      if (!uid) throw new Error("Please log in to update your cart.");
+      const cartDoc = getUserDoc(uid, "cart", id);
       await deleteDoc(cartDoc);
       dispatch(getCartAsync());
     } catch (error) {
-      console.log("Error removing from cart:", error);
+      dispatch(setCourseError(error.message));
+      throw error;
     }
   };
 };
@@ -177,33 +213,42 @@ export const removeFromCartAsync = (id) => {
 
 // GET MY LEARNING
 export const getMyLearningAsync = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
-      const myLearningCol = collection(db, "myLearning");
+      const uid = getUserId(getState);
+      if (!uid) {
+        dispatch(getMyLearning([]));
+        return;
+      }
+      const myLearningCol = getUserCollection(uid, "myLearning");
       const snapshot = await getDocs(myLearningCol);
       const learningArray = snapshotToArray(snapshot);
       dispatch(getMyLearning(learningArray));
     } catch (error) {
-      console.log("Error fetching My Learning:", error);
+      dispatch(setCourseError(error.message));
     }
   };
 };
 
 
 export const purchaseCoursesAsync = (cartItems) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     try {
+      const uid = getUserId(getState);
+      if (!uid) throw new Error("Please log in to purchase courses.");
+      const batch = writeBatch(db);
       for (const item of cartItems) {
-        const learningDoc = doc(db, "myLearning", item.id);
-        await setDoc(learningDoc, item);
-
-        const cartDoc = doc(db, "cart", item.id);
-        await deleteDoc(cartDoc);
+        const learningDoc = getUserDoc(uid, "myLearning", item.id);
+        const cartDoc = getUserDoc(uid, "cart", item.id);
+        batch.set(learningDoc, item);
+        batch.delete(cartDoc);
       }
+      await batch.commit();
       dispatch(getCartAsync());
       dispatch(getMyLearningAsync());
     } catch (error) {
-      console.log("Error purchasing courses:", error);
+      dispatch(setCourseError(error.message));
+      throw error;
     }
   };
 };

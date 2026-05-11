@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Container, Row, Col, Button, Card } from "react-bootstrap";
+import { Row, Col, Button, Card } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
 import { getTeacherAsync, deleteTeacherAsync } from "../../../Services/Action/teacher.action";
@@ -12,6 +12,7 @@ const InstructorDetails = () => {
     const navigate = useNavigate();
 
     const teacher = useSelector((state) => state.teacher.teacher);
+    const error = useSelector((state) => state.teacher.error);
 
     useEffect(() => {
         dispatch(getTeacherAsync(id));
@@ -21,15 +22,20 @@ const InstructorDetails = () => {
         return <h2 className="text-center mt-5">Loading...</h2>;
     }
 
-    const handleDelete = () => {
+    const handleDelete = async () => {
         if (window.confirm("Are you sure you want to delete this instructor?")) {
-            dispatch(deleteTeacherAsync(teacher.id));
-            navigate("/view-instructors");
+            try {
+                await dispatch(deleteTeacherAsync(teacher.id));
+                navigate("/view-instructors");
+            } catch {
+                // Error is shown from Redux state below.
+            }
         }
     };
 
     return (
         <div className="instructor-detail-container">
+            {error && <div className="alert alert-danger">{error}</div>}
             <Card className="instructor-detail-card">
                 <Card.Body className="p-4">
                     <Row>

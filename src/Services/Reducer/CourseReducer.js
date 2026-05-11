@@ -5,6 +5,7 @@ const initialState = {
   course: null,
   isCreated: false,
   isUpdated: false,
+  error: null,
 };
 
 const courseReducer = (state = initialState, action) => {
@@ -21,12 +22,14 @@ const courseReducer = (state = initialState, action) => {
         courses: action.payload,
         isCreated: false,
         isUpdated: false,
+        error: null,
       };
 
     case "GET_COURSE":
       return {
         ...state,
         course: action.payload,
+        error: null,
       };
 
     case "UPDATE_COURSE":
@@ -52,6 +55,18 @@ const courseReducer = (state = initialState, action) => {
       return {
         ...state,
         courses: [...state.courses, action.payload],
+      };
+
+    case "COURSE_ERROR":
+      return {
+        ...state,
+        error: action.payload,
+      };
+
+    case "COURSE_CLEAR_ERROR":
+      return {
+        ...state,
+        error: null,
       };
 
     default:

@@ -3,13 +3,15 @@ import { Button, Form, Col, Container, Row, Card } from "react-bootstrap";
 import "./Addform.css";
 import { useNavigate } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addTeacherAsync } from "../../../Services/Action/teacher.action";
 import CloudinaryUpload from "../../Upload/CloudinaryUpload";
 
 const AddForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const error = useSelector((state) => state.teacher.error);
+  const [actionError, setActionError] = useState("");
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -31,7 +33,7 @@ const AddForm = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // simple validation
@@ -42,30 +44,35 @@ const AddForm = () => {
 
     const newInstructor = {
       ...formData,
-      id: Date.now(),
     };
 
-    dispatch(addTeacherAsync(newInstructor));
-    console.log("Instructor Added:", newInstructor);
+    setActionError("");
+    try {
+      await dispatch(addTeacherAsync(newInstructor));
+      setFormData({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phnumber: "",
+        profession: "",
+        skills: "",
+        bio: "",
+        profileImage: "",
+      });
 
-    navigate("/view-instructors");
-
-    setFormData({
-      firstName: "",
-      lastName: "",
-      email: "",
-      phnumber: "",
-      profession: "",
-      skills: "",
-      bio: "",
-      profileImage: "",
-    });
+      navigate("/view-instructors");
+    } catch (err) {
+      setActionError(err.message);
+    }
   };
 
   return (
     <Container className="add-course-container">
       <Card className="add-course-card">
         <h2 className="add-course-title">Become Instructor</h2>
+        {(actionError || error) && (
+          <div className="alert alert-danger">{actionError || error}</div>
+        )}
 
         <Form onSubmit={handleSubmit}>
 
